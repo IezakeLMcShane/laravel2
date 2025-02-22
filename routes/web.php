@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
 
-Route::get('/visits', function () {
-    $count = session('page_visits', 0);
-    return "Вы посетили страницы сайта {$count} раз(а).";
-});
+Route::get('/pages/show', [PageController::class, 'showOne']);
+Route::get('/pages/all', [PageController::class, 'showAll']);
+Route::get('/pages/show/{id}', [PageController::class, 'show']);
