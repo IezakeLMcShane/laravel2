@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; // Эта строка должна быть здесь
 
 class PageController extends Controller
 {
@@ -12,16 +12,17 @@ class PageController extends Controller
         $pageTitle = 'Страница 1';
         $name = 'Иван'; // пример имени
         $surname = 'Иванов'; // пример фамилии
-    
-        return view('pages.showOne', compact('pageTitle', 'name', 'surname'));
+
+        return view('pages.show.showOne', compact('pageTitle', 'name', 'surname'));
     }
+
     // Действие showAll
     public function showAll()
     {
         return "Это действие showAll";
     }
 
-    // Изменено действие showOne для отображения конкретной страницы
+    // Метод show
     public function show($id)
     {
         $pages = [
@@ -32,11 +33,16 @@ class PageController extends Controller
             5 => 'страница 5',
         ];
 
-        // Проверка существования страницы
         if (array_key_exists($id, $pages)) {
             return $pages[$id];
         } else {
             return "Страница с номером {$id} не найдена.";
         }
+    }
+
+    // Метод test
+    public function test()
+    {
+        return view('pages.show.test');
     }
 }
