@@ -9,9 +9,12 @@ class PageController extends Controller
     // Действие showOne
     public function showOne()
     {
-        return "Это действие showOne";
+        $pageTitle = 'Страница 1';
+        $name = 'Иван'; // пример имени
+        $surname = 'Иванов'; // пример фамилии
+    
+        return view('pages.showOne', compact('pageTitle', 'name', 'surname'));
     }
-
     // Действие showAll
     public function showAll()
     {
