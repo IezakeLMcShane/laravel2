@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 
-Route::get('/pages/show', [PageController::class, 'showOne']);
-Route::get('/pages/all', [PageController::class, 'showAll']);
-Route::get('/pages/show/{id}', [PageController::class, 'show']);
-Route::get('/test', [PageController::class, 'test']);
+Route::get('/method-one', [PageController::class, 'methodOne']);
+Route::get('/method-two', [PageController::class, 'methodTwo']);
+Route::get('/method-three', [PageController::class, 'methodThree']);

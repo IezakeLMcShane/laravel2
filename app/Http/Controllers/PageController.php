@@ -2,47 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Эта строка должна быть здесь
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    // Действие showOne
-    public function showOne()
+    public function methodOne()
     {
-        $pageTitle = 'Страница 1';
-        $name = 'Иван'; // пример имени
-        $surname = 'Иванов'; // пример фамилии
-
-        return view('pages.show.showOne', compact('pageTitle', 'name', 'surname'));
+        return view('pages.show.methodOne', ['title' => 'Это метод один', 'content' => 'Содержимое метода один.']);
     }
 
-    // Действие showAll
-    public function showAll()
+    public function methodTwo()
     {
-        return "Это действие showAll";
+        return view('pages.show.methodTwo', ['title' => 'Это метод два', 'content' => 'Содержимое метода два.']);
     }
 
-    // Метод show
-    public function show($id)
+    public function methodThree()
     {
-        $pages = [
-            1 => 'страница 1',
-            2 => 'страница 2',
-            3 => 'страница 3',
-            4 => 'страница 4',
-            5 => 'страница 5',
-        ];
-
-        if (array_key_exists($id, $pages)) {
-            return $pages[$id];
-        } else {
-            return "Страница с номером {$id} не найдена.";
-        }
-    }
-
-    // Метод test
-    public function test()
-    {
-        return view('pages.show.test');
+        return view('pages.show.methodThree', ['title' => 'Это метод три', 'content' => 'Содержимое метода три.']);
     }
 }
