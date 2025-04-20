@@ -6,9 +6,15 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\userssController;
 use App\Http\Controllers\ApiDataController;
 
-Route::get('/method-one', [PageController::class, 'methodOne']);
-Route::get('/method-two', [PageController::class, 'methodTwo']);
-Route::get('/method-three', [PageController::class, 'methodThree']);
-Route::get('/users', [UserController::class, 'showUsers']);
-Route::get('/user', [userssController::class, 'show']);
-Route::post('/data', [ApiDataController::class, 'store']);
+
+// Показ формы создания пользователя
+Route::get('/users/create', [UserController::class, 'create'])
+     ->name('users.create');
+
+// Обработка формы
+Route::post('/users/insert', [UserController::class, 'insert'])
+     ->name('users.insert');
+
+
+Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
+Route::post('/users/insert', [UserController::class, 'insert'])->name('users.insert');
