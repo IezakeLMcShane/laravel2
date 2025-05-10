@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InsertUserRequest;
+use GuzzleHttp\Promise\Create;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -19,36 +24,33 @@ class UserController extends Controller
     /**
      * Добавляет нового пользователя в БД (используя Query Builder)
      */
-    public function insert(Request $request)
+    public function insert(InsertUserRequest $request)
     {
-        // Валидация данных
-        $validator = Validator::make($request->all(), [
-            'login' => 'required|string|max:255|unique:users',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+        $data = $request->validated();
+        #dd($data);
+        $id=User::create ([
+            'login' => $data['login'],
+            'password' => Hash::make( $data['password']),
+            'email' => $data['email'],
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        // Вставка данных с помощью Query Builder
-        $inserted = DB::table('users')->insert([
-            'login' => $request->login,
-            'password' => bcrypt($request->password),
-            'email' => $request->email,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        if ($inserted) {
-            return redirect()->route('users.index')
+        if ($id) {
+            return redirect()->route('users.create')
                 ->with('success', 'Пользователь успешно создан!');
         }
 
         return redirect()->back()
             ->with('error', 'Ошибка при создании пользователя');
+
+    }
+
+    public function createMany()
+    {
+        return view('users.create_many');
+    }
+    public function insertMany(Request $request)
+     { 
+        dd($request->all());
     }
 }
+

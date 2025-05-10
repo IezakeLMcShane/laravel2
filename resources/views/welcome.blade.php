@@ -10,6 +10,7 @@
 
 @section('content')
 <div class="container">
+<h1>Добро пожаловать!</h1>
     <h2>Добавить нового пользователя</h2>
     
     @if ($errors->any())
