@@ -70,5 +70,17 @@ class EmployeeController extends Controller
     return view('employees.salary_by_position', compact('salaries'));
 }
 
+public function birthday25()
+{
+    $employees = Employee::whereDay('birthday', 25)->get();
+    return view('employees.birthday_25', compact('employees'));
+}
+
+public function bornIn1990()
+{
+    $employees = Employee::whereYear('birthday', 1990)->get();
+    return view('employees.born_1990', compact('employees'));
+}
+
 }
 
