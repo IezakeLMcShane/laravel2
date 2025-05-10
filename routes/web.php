@@ -39,3 +39,7 @@ Route::post('/users/insert', [UserController::class, 'insert'])->name('users.ins
 
 Route::get('/user/create-many', [UserController::class, 'createMany'])->name('users.create_many');
 Route::post('/user/insert-many', [UserController::class, 'insertMany'])->name('users.insert_many');
+
+Route::resource('users', UserController::class);
+Route::get('/users/create-multiple', [UserController::class, 'createMultiple'])->name('users.create-multiple');
+Route::post('/users/store-multiple', [UserController::class, 'storeMultiple'])->name('users.store-multiple');

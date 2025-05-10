@@ -11,46 +11,69 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
-class UserController extends Controller
-{
-    /**
-     * Показывает форму создания пользователя
-     */
-    public function create()
-    {
-        return view('users.create');
-    }
-
-    /**
-     * Добавляет нового пользователя в БД (используя Query Builder)
-     */
-    public function insert(InsertUserRequest $request)
-    {
-        $data = $request->validated();
-        #dd($data);
-        $id=User::create ([
-            'login' => $data['login'],
-            'password' => Hash::make( $data['password']),
-            'email' => $data['email'],
-        ]);
-
-        if ($id) {
-            return redirect()->route('users.create')
-                ->with('success', 'Пользователь успешно создан!');
-        }
-
-        return redirect()->back()
-            ->with('error', 'Ошибка при создании пользователя');
-
-    }
-
-    public function createMany()
-    {
-        return view('users.create_many');
-    }
-    public function insertMany(Request $request)
-     { 
-        dd($request->all());
-    }
+class UserController extends Controller{
+public function index() {
+    $users = User::all();
+    return view('users.index', compact('users'));
 }
 
+public function create() {
+    return view('users.create');
+}
+
+public function createMultiple() {
+    return view('users.create-multiple');
+}
+
+public function store(Request $request) {
+    $data = $request->validate([
+        'login' => 'required|unique:users',
+        'password' => 'required|min:6',
+        'email' => 'required|email|unique:users'
+    ]);
+    
+    User::create($data);
+    return redirect()->route('users.index');
+}
+
+public function storeMultiple(Request $request) {
+    // Валидация для 3 пользователей
+    for ($i = 1; $i <= 3; $i++) {
+        $request->validate([
+            "login.$i" => 'required|unique:users',
+            "password.$i" => 'required|min:6',
+            "email.$i" => 'required|email|unique:users'
+        ]);
+    }
+
+    for ($i = 1; $i <= 3; $i++) {
+        User::create([
+            'login' => $request->input("login.$i"),
+            'password' => $request->input("password.$i"),
+            'email' => $request->input("email.$i")
+        ]);
+    }
+    
+    return redirect()->route('users.index');
+}
+
+public function edit(User $user) {
+    return view('users.edit', compact('user'));
+}
+
+public function update(Request $request, User $user) {
+    $data = $request->validate([
+        'login' => 'required|unique:users,login,'.$user->id,
+        'email' => 'required|email|unique:users,email,'.$user->id,
+        'password' => 'sometimes|min:6'
+    ]);
+    
+    $user->update($data);
+    return redirect()->route('users.index');
+}
+
+public function destroy(User $user) {
+    $user->delete();
+    return redirect()->route('users.index');
+}
+}
