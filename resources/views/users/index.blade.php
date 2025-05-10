@@ -41,7 +41,7 @@
     <!-- Ссылки для добавления пользователей -->
     <div style="margin-top: 20px;">
         <a href="{{ route('users.create') }}" style="margin-right: 10px;">➕ Добавить 1 пользователя</a>
-        <a href="{{ route('users.create-multiple') }}">➕ Добавить 3 пользователей</a>
+        <a href="{{ route('users.create_many') }}">➕ Добавить 3 пользователей</a>
     </div>
 </body>
 </html>

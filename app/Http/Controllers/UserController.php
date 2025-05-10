@@ -22,7 +22,7 @@ public function create() {
 }
 
 public function createMultiple() {
-    return view('users.create-multiple');
+    return view('users.create_many');
 }
 
 public function store(Request $request) {
@@ -35,28 +35,26 @@ public function store(Request $request) {
     User::create($data);
     return redirect()->route('users.index');
 }
-
-public function storeMultiple(Request $request) {
+public function storeMany(Request $request)
+{
     // Валидация для 3 пользователей
-    for ($i = 1; $i <= 3; $i++) {
-        $request->validate([
-            "login.$i" => 'required|unique:users',
-            "password.$i" => 'required|min:6',
-            "email.$i" => 'required|email|unique:users'
-        ]);
-    }
+    $request->validate([
+        'login' => 'required|array|size:3', // Проверяем, что login — массив из 3 элементов
+        'password' => 'required|array|size:3',
+        'email' => 'required|array|size:3',
 
-    for ($i = 1; $i <= 3; $i++) {
+    ]);
+
+    // Создание пользователей
+    foreach ($request->login as $index => $login) {
         User::create([
-            'login' => $request->input("login.$i"),
-            'password' => $request->input("password.$i"),
-            'email' => $request->input("email.$i")
+            'login' => $login,
+            'password' => $request->password[$index],
+            'email' => $request->email[$index],
         ]);
     }
-    
     return redirect()->route('users.index');
 }
-
 public function edit(User $user) {
     return view('users.edit', compact('user'));
 }

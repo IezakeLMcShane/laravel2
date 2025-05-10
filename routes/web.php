@@ -30,16 +30,15 @@ Route::get('/users/create', [UserController::class, 'create'])
      ->name('users.create');
 
 // Обработка формы
-Route::post('/users/insert', [UserController::class, 'insert'])
-     ->name('users.insert');
-
 
 Route::get('/user/create', [UserController::class, 'create'])->name('users.create');
-Route::post('/users/insert', [UserController::class, 'insert'])->name('users.insert');
+Route::post('/users/insert', [UserController::class, 'store'])->name('users.insert');
 
-Route::get('/user/create-many', [UserController::class, 'createMany'])->name('users.create_many');
-Route::post('/user/insert-many', [UserController::class, 'insertMany'])->name('users.insert_many');
+//Route::get('/user/create-many', [UserController::class, 'createMultiple'])->name('users.create_many');
+//Route::post('/user/insert-many', [UserController::class, 'storeMultiple'])->name('users.insert_many');
 
+Route::get('/users/create_many', [UserController::class, 'createMultiple'])->name('users.create_many');
+Route::post('/users/store_many', [UserController::class, 'storeMultiple'])->name('users.insert_many');
 Route::resource('users', UserController::class);
-Route::get('/users/create-multiple', [UserController::class, 'createMultiple'])->name('users.create-multiple');
-Route::post('/users/store-multiple', [UserController::class, 'storeMultiple'])->name('users.store-multiple');
+Route::post('/users/store-many', [UserController::class, 'storeMany'])
+    ->name('users.store_many'); // или 'users.store-many'
