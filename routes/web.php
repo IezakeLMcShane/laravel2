@@ -60,8 +60,18 @@ Route::get('/post/all/{order?}/{dir?}', [PostController::class, 'getAll'])
     ->defaults('order', 'date')
     ->defaults('dir', 'desc');
 
+    Route::get('/post/all/{order?}/{dir?}', [PostController::class, 'getAll'])
+    ->name('post.all')
+    ->where([
+        'order' => 'id|title|date',
+        'dir' => 'asc|desc'
+    ])
+    ->defaults('order', 'date') // По умолчанию сортировка по дате
+    ->defaults('dir', 'desc');  // По умолчанию направление — убывание
 
-
+Route::match(['get', 'put'], '/post/edit/{id}', [PostController::class, 'editPost'])
+    ->name('post.edit')
+    ->where('id', '[0-9]+');
     // Одна статья
 Route::get('/post/{id}', [PostController::class, 'getOne'])
     ->where('id', '[0-9]+')
